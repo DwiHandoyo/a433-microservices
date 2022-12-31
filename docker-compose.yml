@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mongo:
+    container_name: item-db
+    image: mongo:3
+    restart: always
+    volumes:
+      - item-mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+
+  app:
+    container_name: item-app
+    image: dwihandoyo/item-app:v1
+    restart: always
+    depends_on:
+      - mongo:3
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 80:8080
+
+volumes:
+  item-mongo-data:
+
